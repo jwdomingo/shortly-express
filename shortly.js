@@ -24,7 +24,9 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser('secret'));
 app.use(session());
 
+var sess;
 var isAuth = function(req, res, next) {
+  sess = req.session;
   if (req.session.user) {
     next();
   } else {
@@ -51,7 +53,7 @@ app.get('/signup', function(req, res) {
   res.render('signup');
 });
 
-app.get('/links', function(req, res) {
+app.get('/links', isAuth, function(req, res) {
   Links.reset().fetch().then(function(links) {
     res.send(200, links.models);
   });
@@ -62,11 +64,24 @@ app.post('/login', function(req, res) {
 });
 
 app.post('/signup', function(req, res) {
-  var user = req.body.username;
-  var pass = req.body.password;
+  var newUser = new User({
+    username: req.body.username,
+    password: req.body.password
+  });
+
+  newUser.fetch()
+    .then(function(found){
+      if (!found) {
+        newUser.createUser();
+        return res.redirect('/');
+      } else {
+        // TODO: throw error 'user Exists' and redirect
+        return res.redirect('/login');
+      }
+    });
 });
 
-app.post('/links', function(req, res) {
+app.post('/links', isAuth, function(req, res) {
   var uri = req.body.url;
 
   if (!util.isValidUrl(uri)) {
@@ -108,7 +123,7 @@ app.post('/links', function(req, res) {
 // If the short-code doesn't exist, send the user to '/'
 /************************************************************/
 
-app.get('/*', function(req, res) {
+app.get('/*', isAuth, function(req, res) {
   new Link({ code: req.params[0] }).fetch().then(function(link) {
     if (!link) {
       res.redirect('/');
