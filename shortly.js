@@ -2,7 +2,8 @@ var express = require('express');
 var util = require('./lib/utility');
 var partials = require('express-partials');
 var bodyParser = require('body-parser');
-
+var cookieParser = require('cookie-parser');
+var session = require('express-session');
 
 var db = require('./app/config');
 var Users = require('./app/collections/users');
@@ -20,17 +21,26 @@ app.use(partials());
 app.use(bodyParser.json());
 // Parse forms (signup/login)
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cookieParser('secret'));
+app.use(session());
+
+var isAuth = function(req, res, next) {
+  if (req.session.user) {
+    next();
+  } else {
+    req.session.error = 'Access Denied';
+    res.redirect('/login');
+  }
+};
+
 app.use(express.static(__dirname + '/public'));
 
-// app.use(function(req, res, next) {
-//   if (!req.session || req.url !== '/signup') {
-//     res.render('login');
-//   }
-//   next();
-// });
-
-app.get('/', function(req, res) {
+app.get('/', isAuth, function(req, res) {
   res.render('index');
+});
+
+app.get('/login', function(req, res) {
+  res.render('login');
 });
 
 app.get('/create', function(req, res) {
@@ -38,7 +48,6 @@ app.get('/create', function(req, res) {
 });
 
 app.get('/signup', function(req, res) {
-  console.log('SIGNING UP');
   res.render('signup');
 });
 
@@ -46,6 +55,15 @@ app.get('/links', function(req, res) {
   Links.reset().fetch().then(function(links) {
     res.send(200, links.models);
   });
+});
+
+app.post('/login', function(req, res) {
+
+});
+
+app.post('/signup', function(req, res) {
+  var user = req.body.username;
+  var pass = req.body.password;
 });
 
 app.post('/links', function(req, res) {
