@@ -22,15 +22,16 @@ app.use(bodyParser.json());
 // Parse forms (signup/login)
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser('secret'));
-app.use(session());
 
-var sess;
+var sess = {secret: 'secret'};
+app.use(session(sess));
+
 var isAuth = function(req, res, next) {
-  sess = req.session;
-  if (req.session.user) {
+  if (sess.user) {
     next();
   } else {
-    req.session.error = 'Access Denied';
+    sess = req.session;
+    sess.error = 'Access Denied';
     res.redirect('/login');
   }
 };
@@ -60,7 +61,8 @@ app.get('/links', isAuth, function(req, res) {
 });
 
 app.post('/login', function(req, res) {
-
+  console.log('POST LOGIN JUST HAPPENED with sess:', sess);
+  res.end();
 });
 
 app.post('/signup', function(req, res) {
@@ -73,11 +75,13 @@ app.post('/signup', function(req, res) {
     .then(function(found){
       if (!found) {
         newUser.createUser();
-        return res.redirect('/');
+        sess.user = req.body.username;
+        res.redirect('/');
       } else {
         // TODO: throw error 'user Exists' and redirect
-        return res.redirect('/login');
+        res.redirect('/login');
       }
+      res.end();
     });
 });
 
@@ -124,6 +128,7 @@ app.post('/links', isAuth, function(req, res) {
 /************************************************************/
 
 app.get('/*', isAuth, function(req, res) {
+  console.log('-----------------/ GET * /------------------- + sess:', sess);
   new Link({ code: req.params[0] }).fetch().then(function(link) {
     if (!link) {
       res.redirect('/');
