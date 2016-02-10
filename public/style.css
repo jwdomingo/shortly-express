@@ -5,10 +5,16 @@
 
 body {
   margin: 0;
-  margin-top: 10px;
   font-family: arial, sans-serif;
   text-align: center;
-  background: pink;
+  background: rgba(150, 77, 89, 1);
+  color: #eee;
+}
+
+.container {
+  position: relative;
+  top: 50vh;
+  transform: translateY(-50%);
 }
 
 a {
@@ -105,20 +111,47 @@ h1 {
   margin-left: 55px;
 }
 
+.form-container {
+  margin: 40px 0 0;
+  display: inline-block;
+  border: 2px solid white;
+  border-radius: 5px;
+}
+
 form {
   margin: 10px;
+  padding: 20px;
   display: inline-block;
 }
 
 form input[type=text], form input[type=password] {
+  color: white;
   width: 360px;
+  height: 30px;
   display: block;
   font-size: 13px;
-  padding: 5px;
-  margin-bottom: 5px;
-  border: 3px solid white;
-  background: pink;
-  border-radius: 10px;
+  padding: 5px 15px;
+  margin: 30px 0;
+  border: 1px solid white;
+  background: rgba(150, 77, 89, 1);
+  border-radius: 5px;
+  outline: none;
+}
+
+form input.btn-submit {
+  width: 390px;
+  color: rgba(150, 77, 89, 1);
+  text-transform: uppercase;
+  font-size: 0.8em;
+  padding: 10px 5px;
+  border: 1px solid white;
+  background: white;
+  border-radius: 5px;
+  outline: none;
+}
+
+form input::-webkit-input-placeholder {
+  color: white;
 }
 
 .error {
