@@ -65,10 +65,13 @@ describe('', function() {
 
     beforeEach(function(done) {
       // create a user that we can then log-in with
-      new User({
+      var newUser = new User({
         'username': 'Phillip',
         'password': 'Phillip'
-      }).save().then(function() {
+      });
+
+      newUser.createUser();
+      newUser.save().then(function() {
         var options = {
           'method': 'POST',
           'followAllRedirects': true,
@@ -238,7 +241,7 @@ describe('', function() {
 
   }); // 'Priviledged Access'
 
-  xdescribe('Account Creation:', function() {
+  describe('Account Creation:', function() {
 
     it('Signup creates a user record', function(done) {
       var options = {
@@ -286,15 +289,18 @@ describe('', function() {
 
   }); // 'Account Creation'
 
-  xdescribe('Account Login:', function() {
+  describe('Account Login:', function() {
 
     var requestWithSession = request.defaults({jar: true});
 
     beforeEach(function(done) {
-      new User({
+      var newUser = new User({
         'username': 'Phillip',
         'password': 'Phillip'
-      }).save().then(function() {
+      });
+
+      newUser.createUser();
+      newUser.save().then(function() {
         done();
       });
     });
