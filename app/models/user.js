@@ -5,7 +5,7 @@ var Promise = require('bluebird');
 var User = db.Model.extend({
   tableName: 'users',
   hasTimestamps: true,
-  
+
   createUser: function () {
     var salt = bcrypt.genSaltSync(10);
     var hash = bcrypt.hashSync(this.get('password'), salt);
