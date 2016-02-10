@@ -1,7 +1,14 @@
+@font-face {
+  font-family: 'Linotte';
+  src:  url('linotte.ttf') format('ttf');;
+}
+
 body {
   margin: 0;
   margin-top: 10px;
   font-family: arial, sans-serif;
+  text-align: center;
+  background: pink;
 }
 
 a {
@@ -11,8 +18,9 @@ a {
 }
 
 h1 {
-  font-style: italic;
-  margin-bottom: 10px;
+  font-size: 4em;
+  margin: 0 0 10px;
+  font-family: 'Linotte', monospace;
 }
 
 .navigation {
@@ -99,6 +107,7 @@ h1 {
 
 form {
   margin: 10px;
+  display: inline-block;
 }
 
 form input[type=text], form input[type=password] {
@@ -107,6 +116,9 @@ form input[type=text], form input[type=password] {
   font-size: 13px;
   padding: 5px;
   margin-bottom: 5px;
+  border: 3px solid white;
+  background: pink;
+  border-radius: 10px;
 }
 
 .error {
