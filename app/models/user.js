@@ -6,16 +6,16 @@ var User = db.Model.extend({
   tableName: 'users',
   hasTimestamps: true,
   
-  fetch: function () {
-    return db.knex.select().from('users')
-      .where('username', this.get('username'))
-      .then(function (rows) {
-        return rows[0];
-      })
-      .catch(function (error) {
-        console.error('user not found', error);
-      });
-  },
+  // fetch: function () {
+  //   return db.knex.select().from('users')
+  //     .where('username', this.get('username'))
+  //     .then(function (rows) {
+  //       return rows[0];
+  //     })
+  //     .catch(function (error) {
+  //       console.error('user not found', error);
+  //     });
+  // },
 
   createUser: function () {
     var salt = bcrypt.genSaltSync(10);
