@@ -61,8 +61,22 @@ app.get('/links', isAuth, function(req, res) {
 });
 
 app.post('/login', function(req, res) {
-  console.log('POST LOGIN JUST HAPPENED with sess:', sess);
-  res.end();
+  var newUser = new User({
+    username: req.body.username,
+    password: req.body.password
+  });
+
+  newUser.fetch()
+    .then(function(found){
+      if (found) {
+        if (util.isValidPassword(found.salt, found.hash, req.body.password)) {
+          sess.user = req.body.username;
+          return res.redirect('/');
+        }
+      }
+      console.error('Wrong username or password');
+      res.redirect('/login');
+    });
 });
 
 app.post('/signup', function(req, res) {
@@ -78,7 +92,7 @@ app.post('/signup', function(req, res) {
         sess.user = req.body.username;
         res.redirect('/');
       } else {
-        // TODO: throw error 'user Exists' and redirect
+        console.error('User already exists');
         res.redirect('/login');
       }
       res.end();
@@ -128,7 +142,6 @@ app.post('/links', isAuth, function(req, res) {
 /************************************************************/
 
 app.get('/*', isAuth, function(req, res) {
-  console.log('-----------------/ GET * /------------------- + sess:', sess);
   new Link({ code: req.params[0] }).fetch().then(function(link) {
     if (!link) {
       res.redirect('/');
