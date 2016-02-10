@@ -18,7 +18,7 @@ body {
 }
 
 a {
-  color: #333;
+  color: #222;
   font-size: 14px;
   text-decoration: none;
 }
@@ -112,15 +112,14 @@ h1 {
 }
 
 .form-container {
-  margin: 40px 0 0;
+  margin: 30px 0 0;
   display: inline-block;
   border: 2px solid white;
   border-radius: 5px;
 }
 
 form {
-  margin: 10px;
-  padding: 20px;
+  padding: 0 20px 20px;
   display: inline-block;
 }
 
@@ -131,9 +130,9 @@ form input[type=text], form input[type=password] {
   display: block;
   font-size: 13px;
   padding: 5px 15px;
-  margin: 30px 0;
+  margin: 0 0 30px;
   border: 1px solid white;
-  background: rgba(150, 77, 89, 1);
+  background: rgba(150, 77, 89, 0.7);
   border-radius: 5px;
   outline: none;
 }
@@ -152,6 +151,11 @@ form input.btn-submit {
 
 form input::-webkit-input-placeholder {
   color: white;
+}
+
+p {
+  font-size: 0.9em;
+  color: #ccc;
 }
 
 .error {
