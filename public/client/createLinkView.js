@@ -16,6 +16,9 @@ Shortly.createLinkView = Backbone.View.extend({
     e.preventDefault();
     var $form = this.$el.find('form .text');
     var link = new Shortly.Link({ url: $form.val() });
+
+    console.log('CLIENT NEW LINK', link);
+
     link.on('request', this.startSpinner, this);
     link.on('sync', this.success, this);
     link.on('error', this.failure, this);
@@ -24,6 +27,7 @@ Shortly.createLinkView = Backbone.View.extend({
   },
 
   success: function(link) {
+    console.log('SUCCESS');
     this.stopSpinner();
     var view = new Shortly.LinkView({ model: link });
     this.$el.find('.message').append(view.render().$el.hide().fadeIn());
