@@ -46,7 +46,7 @@ app.get('/login', function(req, res) {
   res.render('login');
 });
 
-app.get('/create', function(req, res) {
+app.get('/create', isAuth, function(req, res) {
   res.render('index');
 });
 
