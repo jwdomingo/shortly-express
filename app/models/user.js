@@ -6,6 +6,7 @@ var User = db.Model.extend({
   tableName: 'users',
   hasTimestamps: true,
   
+  // Built in Function
   // fetch: function () {
   //   return db.knex.select().from('users')
   //     .where('username', this.get('username'))
