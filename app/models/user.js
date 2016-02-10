@@ -8,7 +8,7 @@ var User = db.Model.extend({
   
   fetch: function () {
     return db.knex.select().from('users')
-      .where('username', this.username)
+      .where('username', this.get('username'))
       .then(function (rows) {
         return rows[0];
       })
