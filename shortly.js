@@ -69,7 +69,7 @@ app.post('/login', function(req, res) {
   newUser.fetch()
     .then(function(found){
       if (found) {
-        if (util.isValidPassword(found.salt, found.hash, req.body.password)) {
+        if (util.isValidPassword(found.get('salt'), found.get('hash'), req.body.password)) {
           sess.user = req.body.username;
           return res.redirect('/');
         }
@@ -97,6 +97,13 @@ app.post('/signup', function(req, res) {
       }
       res.end();
     });
+});
+
+app.get('/logout', function(req, res){
+  req.session.destroy(function(){
+    sess.user = '';
+    res.redirect('/login');
+  });
 });
 
 app.post('/links', isAuth, function(req, res) {
